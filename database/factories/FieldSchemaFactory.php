@@ -18,158 +18,147 @@ class FieldSchemaFactory extends Factory
     {
         return [
             'content' => json_decode(<<<'JSON'
-                {
-                "title": "New Entry",
-                "description": "",
-                "type": "object",
-                "definitions": {
-                    "Experiment": {
-                    "type": "string",
-                    "enum": [
-                        "ALICE",
-                        "ATLAS",
-                        "CMS",
-                        "LHCb"
-                    ]
+            {
+            "title":"New Entry",
+            "description":"",
+            "type":"object",
+            "required":[
+                "Experiment"
+            ],
+            "definitions":{
+                "Experiment":{
+                "type":"string",
+                "enum":[
+                    "ALICE",
+                    "ATLAS",
+                    "CMS",
+                    "LHCb"
+                ]
+                }
+            },
+            "properties":{
+                "System":{
+                "type":"object",
+                "properties":{
+                    "Experiment":{
+                    "$ref":"#/definitions/Experiment"
                     }
                 },
-                "properties": {
-                    "System": {
-                    "type": "object",
-                    "properties": {
-                        "Experiment": {
-                        "$ref": "#/definitions/Experiment"
-                        }
-                    },
-                    "dependencies": {
-                        "Experiment": {
-                        "oneOf": [
-                            {
-                            "properties": {
-                                "Experiment": {
-                                "enum": [
-                                    "ALICE"
-                                ]
-                                },
-                                "SubSystem": {
-                                "type": "array",
-                                "title": "Sub Detector",
-                                "items": {
-                                    "enum": [
-                                    "TPC",
-                                    "TRD",
-                                    "MID",
-                                    "MCH",
-                                    "CPV",
-                                    "TOF",
-                                    "HMPID"
-                                    ]
-                                },
-                                "uniqueItems": true
-                                }
-                            }
+                "dependencies":{
+                    "Experiment":{
+                    "oneOf":[
+                        {
+                        "properties":{
+                            "Experiment":{
+                            "enum":[
+                                "ALICE"
+                            ]
                             },
-                            {
-                            "properties": {
-                                "Experiment": {
-                                "enum": [
-                                    "ATLAS"
+                            "SubSystem":{
+                            "type":"array",
+                            "title":"Sub Detector",
+                            "items":{
+                                "enum":[
+                                "TPC",
+                                "TRD",
+                                "MID",
+                                "MCH",
+                                "CPV",
+                                "TOF",
+                                "HMPID"
                                 ]
-                                },
-                                "SubSystem": {
-                                "type": "array",
-                                "title": "Sub Detector",
-                                "items": {
-                                    "enum": [
-                                    "MMG",
-                                    "MDT",
-                                    "RPC",
-                                    "TFC",
-                                    "ID"
-                                    ]
-                                },
-                                "uniqueItems": true
-                                }
-                            }
                             },
-                            {
-                            "properties": {
-                                "Experiment": {
-                                "enum": [
-                                    "CMS"
-                                ]
-                                },
-                                "SubSystem": {
-                                "type": "array",
-                                "title": "Sub Detector",
-                                "items": {
-                                    "enum": [
-                                    "RPC",
-                                    "CSC",
-                                    "DT",
-                                    "ID"
-                                    ]
-                                },
-                                "uniqueItems": true
-                                }
+                            "uniqueItems":true
                             }
-                            },
-                            {
-                            "properties": {
-                                "Experiment": {
-                                "enum": [
-                                    "LHCb"
-                                ]
-                                },
-                                "SubSystem": {
-                                "type": "array",
-                                "title": "Sub Detector",
-                                "items": {
-                                    "enum": [
-                                    "RICH1",
-                                    "RICH2",
-                                    "SciFi",
-                                    "UT",
-                                    "MWPC"
-                                    ]
-                                },
-                                "uniqueItems": true
-                                }
-                            }
-                            }
-                        ]
-                        }
-                    }
-                    },
-                    "Status": {
-                    "type": "string",
-                    "enum": [
-                        "To Do",
-                        "Done",
-                        "In Progress"
-                    ],
-                    "default": "To Do"
-                    },
-                    "EntryDescription": {
-                    "type": "object",
-                    "properties": {
-                        "time": {
-                        "type": "number"
-                        },
-                        "blocks": {
-                        "type": "array",
-                        "items": {
-                            "type": "object"
                         }
                         },
-                        "version": {
-                        "type": "string"
+                        {
+                        "properties":{
+                            "Experiment":{
+                            "enum":[
+                                "ATLAS"
+                            ]
+                            },
+                            "SubSystem":{
+                            "type":"array",
+                            "title":"Sub Detector",
+                            "items":{
+                                "enum":[
+                                "MMG",
+                                "MDT",
+                                "RPC",
+                                "TFC",
+                                "ID"
+                                ]
+                            },
+                            "uniqueItems":true
+                            }
                         }
-                    }
+                        },
+                        {
+                        "properties":{
+                            "Experiment":{
+                            "enum":[
+                                "CMS"
+                            ]
+                            },
+                            "SubSystem":{
+                            "type":"array",
+                            "title":"Sub Detector",
+                            "items":{
+                                "enum":[
+                                "RPC",
+                                "CSC",
+                                "DT",
+                                "ID"
+                                ]
+                            },
+                            "uniqueItems":true
+                            }
+                        }
+                        },
+                        {
+                        "properties":{
+                            "Experiment":{
+                            "enum":[
+                                "LHCb"
+                            ]
+                            },
+                            "SubSystem":{
+                            "type":"array",
+                            "title":"Sub Detector",
+                            "items":{
+                                "enum":[
+                                "RICH1",
+                                "RICH2",
+                                "SciFi",
+                                "UT",
+                                "MWPC"
+                                ]
+                            },
+                            "uniqueItems":true
+                            }
+                        }
+                        }
+                    ]
                     }
                 }
+                },
+                "Status":{
+                "type":"string",
+                "enum":[
+                    "To Do",
+                    "Done",
+                    "In Progress"
+                ],
+                "default":"To Do"
+                },
+                "EntryDescription":{
+                "type":"string"
                 }
-            JSON, true),
+            }
+            }
+        JSON, true),
             'layout' => json_decode(<<<'JSON'
                 {
                     "System": {
@@ -181,10 +170,27 @@ class FieldSchemaFactory extends Factory
                     "EntryDescription": {
                         "ui:title": "",
                         "ui:description": "",
-                        "ui:field": "EditorField"
+                        "ui:widget": "CKEditor"
                     }
                 }
             JSON, true),
         ];
     }
 }
+
+/**
+ * "properties": {
+                            "time": {
+                                "type": "number"
+                            },
+                            "blocks": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            "version": {
+                                "type": "string"
+                            }
+                        }
+ */

@@ -6,9 +6,11 @@ use App\Models\Entry;
 use App\Models\FieldSchema;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use Opis\JsonSchema\Errors\ErrorFormatter;
+use Opis\JsonSchema\Validator;
 
 class EntryController extends Controller
 {
@@ -17,7 +19,8 @@ class EntryController extends Controller
      */
     public function index()
     {
-        $entries = Entry::all();
+        // TODO: use pagination
+        $entries = Entry::all()->append('entry_description')->load(['user'])->append('entry_description');
 
         return Inertia::render('Entry/Index', [
             'entries' => $entries,
@@ -45,23 +48,33 @@ class EntryController extends Controller
     {
         // Create the entry model
         $last_schema = FieldSchema::orderByDesc('created_at')->firstOrFail();
+
         $entry = new Entry(['content' => $request->get('content')]);
         $entry->field_schema()->associate($last_schema);
 
         // Here we should retrieve the user
-        $user = User::find(1);
-        $entry->user()->associate($user);
+        $entry->user()->associate(Auth::user());
 
         // Handle validation of last schema with entry
+        $validator = new Validator();
+        $result = $validator->validate(request()->json(), $last_schema);
+        if (! $result->isValid()) {
+            $error = $result->error();
+            $formatter = new ErrorFormatter();
+
+            return Inertia::render('Entry/Create', [
+                'errors' => $formatter->format($error),
+            ]);
+        }
 
         // Save entry
         $entry->save();
 
         // Redirect to entry creation
-        return Inertia::render('Entry/Create', [
-            'content' => $last_schema->content,
-            'layout' => $last_schema->layout,
-            'created_entry' => $entry,
+        return Inertia::render('Entry/Show', [
+            'entry' => $entry,
+            'schema' => $last_schema,
+            'message' => 'Entry '.$entry->id.' created',
         ]);
     }
 
@@ -72,10 +85,6 @@ class EntryController extends Controller
     {
         $entry = Entry::findOrFail($id);
         $schema = $entry->field_schema;
-
-        // Here we should retrieve the user
-        $user = User::find(1);
-        $entry->user()->associate($user);
 
         return Inertia::render('Entry/Show', [
             'entry' => $entry,
@@ -90,10 +99,6 @@ class EntryController extends Controller
     {
         $entry = Entry::findOrFail($id);
         $schema = $entry->field_schema;
-
-        // Here we should retrieve the user
-        $user = User::find(1);
-        $entry->user()->associate($user);
 
         return Inertia::render('Entry/Edit', [
             'entry' => $entry,
@@ -112,8 +117,7 @@ class EntryController extends Controller
         // One should validate the content with the schema
 
         // Here we should retrieve the user
-        $user = User::find(1);
-        $entry->user()->associate($user);
+        $entry->user()->associate(Auth::user());
 
         // Save data to db
         $entry->save();
@@ -128,8 +132,10 @@ class EntryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Entry $entry)
     {
-        //
+        $entry->delete();
+
+        return redirect()->back();
     }
 }

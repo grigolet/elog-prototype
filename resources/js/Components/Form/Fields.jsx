@@ -1,5 +1,3 @@
-import EditorField from "./EditorField";
+import Editors from "./EditorFields";
 
-export default {
-    EditorField,
-};
+export default Editors;

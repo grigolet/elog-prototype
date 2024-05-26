@@ -1,7 +1,11 @@
 import SelectWidget from "./SelectWidget";
-import EditorWidget from "./EditorWidget";
+import LexicalEditor from "./LexicalEditor";
+import BlockNoteEditor from "./BlockNoteEditor";
+import CKEditor from "./CKEditor";
 
 export default {
-    SelectWidget,
-    EditorWidget,
+  SelectWidget,
+  LexicalEditor,
+  BlockNoteEditor,
+  CKEditor,
 };
