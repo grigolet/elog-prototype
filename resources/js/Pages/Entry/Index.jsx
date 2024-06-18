@@ -45,7 +45,7 @@ function EntryList({ entry }) {
       <td className="px-2 py-1">{entry.created_at}</td>
       <td className="px-2 py-1">{entry.updated_at}</td>
       <td className="px-2 py-1">{entry.user.name}</td>
-      <td className="px-2 py-1">{entry.entry_description}</td>
+      <td className="px-2 py-1">{entry.title}</td>
       <td className="px-2 py-1 font-medium flex flex-row">
         <AlertDialog>
           <AlertDialogTrigger className="text-red-500">
@@ -105,7 +105,7 @@ export default function Index({ entries }) {
                 User
               </th>
               <th scope="col" className="px-3 py-2 font-medium text-gray-900">
-                Description
+                Title
               </th>
               <th
                 scope="col"

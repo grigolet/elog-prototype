@@ -33,8 +33,9 @@
     29 => 'Termwind\\Laravel\\TermwindServiceProvider',
     30 => 'Pest\\Laravel\\PestServiceProvider',
     31 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    32 => 'Tighten\\Ziggy\\ZiggyServiceProvider',
-    33 => 'App\\Providers\\AppServiceProvider',
+    32 => 'Spatie\\Permission\\PermissionServiceProvider',
+    33 => 'Tighten\\Ziggy\\ZiggyServiceProvider',
+    34 => 'App\\Providers\\AppServiceProvider',
   ),
   'eager' => 
   array (
@@ -55,8 +56,9 @@
     14 => 'Termwind\\Laravel\\TermwindServiceProvider',
     15 => 'Pest\\Laravel\\PestServiceProvider',
     16 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    17 => 'Tighten\\Ziggy\\ZiggyServiceProvider',
-    18 => 'App\\Providers\\AppServiceProvider',
+    17 => 'Spatie\\Permission\\PermissionServiceProvider',
+    18 => 'Tighten\\Ziggy\\ZiggyServiceProvider',
+    19 => 'App\\Providers\\AppServiceProvider',
   ),
   'deferred' => 
   array (

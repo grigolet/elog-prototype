@@ -6,6 +6,7 @@ use App\Models\Entry;
 use App\Models\FieldSchema;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -20,7 +21,7 @@ class EntryController extends Controller
     public function index()
     {
         // TODO: use pagination
-        $entries = Entry::all()->append('entry_description')->load(['user'])->append('entry_description');
+        $entries = Entry::all();
 
         return Inertia::render('Entry/Index', [
             'entries' => $entries,
@@ -36,8 +37,8 @@ class EntryController extends Controller
         $last_schema = FieldSchema::orderByDesc('created_at')->firstOrFail();
 
         return Inertia::render('Entry/Create', [
-            'content' => $last_schema->content,
-            'layout' => $last_schema->layout,
+            'content' => $last_schema->complete_content,
+            'layout' => $last_schema->complete_layout,
         ]);
     }
 
@@ -48,21 +49,32 @@ class EntryController extends Controller
     {
         // Create the entry model
         $last_schema = FieldSchema::orderByDesc('created_at')->firstOrFail();
+        $request->validate([
+            'title' => ['required'],
+            'fields' => ['json'],
+        ]);
 
-        $entry = new Entry(['content' => $request->get('content')]);
+        $content = $request->get('content');
+        $entry = new Entry([
+            'title' => Arr::get($content, 'title'),
+            'fields' => Arr::except($content, ['description', 'title']),
+            'description' => Arr::get($content, 'description'),
+        ]);
+
         $entry->field_schema()->associate($last_schema);
-
         // Here we should retrieve the user
         $entry->user()->associate(Auth::user());
 
         // Handle validation of last schema with entry
         $validator = new Validator();
-        $result = $validator->validate(request()->json(), $last_schema);
+        $result = $validator->validate($content, json_encode($last_schema->content));
         if (! $result->isValid()) {
             $error = $result->error();
             $formatter = new ErrorFormatter();
 
             return Inertia::render('Entry/Create', [
+                'entry' => $entry,
+                'schema' => $last_schema,
                 'errors' => $formatter->format($error),
             ]);
         }
@@ -87,7 +99,8 @@ class EntryController extends Controller
         $schema = $entry->field_schema;
 
         return Inertia::render('Entry/Show', [
-            'entry' => $entry,
+            'entry_id' => $entry->id,
+            'entry_content' => $entry->complete_content,
             'schema' => $schema,
         ]);
     }
@@ -101,7 +114,8 @@ class EntryController extends Controller
         $schema = $entry->field_schema;
 
         return Inertia::render('Entry/Edit', [
-            'entry' => $entry,
+            'entry_id' => $entry->id,
+            'entry_content' => $entry->complete_content,
             'schema' => $schema,
         ]);
     }
@@ -112,7 +126,12 @@ class EntryController extends Controller
     public function update(Request $request, Entry $entry)
     {
         // Create the entry model
-        $entry->content = $request->content;
+        $content = $request->get('content');
+        $entry->update([
+            'title' => Arr::only($content, 'title'),
+            'fields' => Arr::except($content, ['description', 'title']),
+            'description' => Arr::only($content, 'description'),
+        ]);
 
         // One should validate the content with the schema
 

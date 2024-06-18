@@ -1,6 +1,7 @@
 import { getInputProps } from "@rjsf/utils";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
+import { useState } from "react";
 
 function BaseInputTemplate(props) {
   const {
@@ -46,21 +47,22 @@ function BaseInputTemplate(props) {
       ))
     : null;
 
+  const [inputValue, setInputValue] = useState(value || "");
+
   return (
-    <div className="grid w-full max-w-sm items-center gap-1.5">
+    <div className="w-full items-center gap-1.5">
       <Label htmlFor={id}>{label}</Label>
       <Input
         id={id}
         label={label}
-        type="email"
-        value={value}
+        value={inputValue}
+        disabled={disabled}
         placeholder={placeholder}
-        onChange={onChangeOverride || onTextChange}
+        onChange={(e) => setInputValue(e.target.value)}
         onBlur={onTextBlur}
         onFocus={onTextFocus}
         {...inputProps}
       />
-      {errors}
     </div>
   );
 }

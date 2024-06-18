@@ -12,7 +12,7 @@ import validator from "@rjsf/validator-ajv8";
 
 const CustomThemedForm = withTheme({ templates, widgets, fields });
 
-export default function Show({ entry, schema, message }) {
+export default function Show({ entry_id, entry_content, schema, message }) {
   const notification =
     message !== undefined ? <NotificationInfo content={message} /> : null;
 
@@ -22,19 +22,19 @@ export default function Show({ entry, schema, message }) {
       {notification}
       <div>
         <CustomThemedForm
-          schema={schema.content}
+          schema={schema.complete_content}
           uiSchema={{
-            ...schema.layout,
+            ...schema.complete_layout,
             "ui:submitButtonOptions": { norender: true },
           }}
           validator={validator}
-          formData={entry.content}
+          formData={entry_content}
           readonly
           disabled
         />
       </div>
       <Button asChild>
-        <Link href={`/entries/${entry.id}/edit`}>Edit</Link>
+        <Link href={`/entries/${entry_id}/edit`}>Edit</Link>
       </Button>
     </GuestLayout>
   );

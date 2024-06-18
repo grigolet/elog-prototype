@@ -19,12 +19,9 @@ class FieldSchemaFactory extends Factory
         return [
             'content' => json_decode(<<<'JSON'
             {
-            "title":"New Entry",
+            "title":"",
             "description":"",
             "type":"object",
-            "required":[
-                "Experiment"
-            ],
             "definitions":{
                 "Experiment":{
                 "type":"string",
@@ -44,6 +41,9 @@ class FieldSchemaFactory extends Factory
                     "$ref":"#/definitions/Experiment"
                     }
                 },
+                "required":[
+                    "Experiment"
+                ],
                 "dependencies":{
                     "Experiment":{
                     "oneOf":[
@@ -152,9 +152,6 @@ class FieldSchemaFactory extends Factory
                     "In Progress"
                 ],
                 "default":"To Do"
-                },
-                "EntryDescription":{
-                "type":"string"
                 }
             }
             }
@@ -166,11 +163,6 @@ class FieldSchemaFactory extends Factory
                         "SubSystem": {
                             "ui:widget": "checkboxes"
                         }
-                    },
-                    "EntryDescription": {
-                        "ui:title": "",
-                        "ui:description": "",
-                        "ui:widget": "CKEditor"
                     }
                 }
             JSON, true),

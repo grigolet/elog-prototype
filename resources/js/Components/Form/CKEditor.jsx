@@ -127,6 +127,7 @@ export default function CustomCKEditor({
 
   const config = {
     extraPlugins: [MyCustomUploadAdapterPlugin],
+    height: 400,
   };
 
   function updateData(event, editor) {
@@ -144,7 +145,7 @@ export default function CustomCKEditor({
   }
 
   return (
-    <div className="prose">
+    <div className="prose max-w-none">
       <CKEditor
         editor={ClassicEditor}
         config={config}

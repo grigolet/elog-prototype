@@ -32,6 +32,7 @@ const sendRequest = (formData) => {
 
 export default function Create({ content, layout, created_entry }) {
   const { errors } = usePage().props;
+  console.log(content);
   return (
     <GuestLayout>
       <Head title="Create Entry" />
@@ -42,6 +43,7 @@ export default function Create({ content, layout, created_entry }) {
           uiSchema={layout}
           validator={validator}
           onSubmit={sendRequest}
+          showErrorList="top"
         />
       </div>
     </GuestLayout>

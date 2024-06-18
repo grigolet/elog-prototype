@@ -89,9 +89,6 @@ const mockContent = {
       enum: ["To Do", "Done", "In Progress"],
       default: "To Do",
     },
-    EntryDescription: {
-      type: "string",
-    },
   },
 };
 const mockLayout = {
@@ -100,11 +97,6 @@ const mockLayout = {
     SubSystem: {
       "ui:widget": "checkboxes",
     },
-  },
-  EntryDescription: {
-    "ui:title": "",
-    "ui:description": "",
-    "ui:widget": "CKEditor",
   },
 };
 

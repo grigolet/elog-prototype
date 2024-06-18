@@ -29,23 +29,30 @@ const sendRequest = (formData, id) => {
   );
 };
 
-export default function Edit({ entry, schema, updated_entry }) {
+export default function Edit({
+  entry_id,
+  entry_content,
+  schema,
+  updated_entry,
+}) {
   {
     updated_entry !== undefined ? (
       <NotificationInfo message="Entry updated." />
     ) : null;
   }
 
+  console.log(schema);
+
   return (
     <GuestLayout>
       <Head title="Edit Entry" />
       <div>
         <CustomThemedForm
-          schema={schema.content}
-          uiSchema={schema.layout}
+          schema={schema.complete_content}
+          uiSchema={schema.complete_layout}
           validator={validator}
-          onSubmit={(formData) => sendRequest(formData, entry.id)}
-          formData={entry.content}
+          onSubmit={(formData) => sendRequest(formData, entry_id)}
+          formData={entry_content}
         />
       </div>
     </GuestLayout>
